@@ -1,0 +1,47 @@
+/*Styling the input section */
+#input{
+    width: auto;
+    height: auto;
+    padding: 20px;
+    margin: 30px;
+}
+    
+/* styling the buttons */
+    
+#Addpoint {
+    color: green;
+    font-family: cursive;
+    font font-style: normal;
+    background-position: center;
+    box-sizing: content-box;
+}
+
+#Sectionclose {
+    color: green;
+    font-family: cursive;
+    font font-style: normal;
+    background-position: center;
+    box-sizing: content-box;
+}
+
+/* styling the viewing section*/
+#plot{
+    font: 13px;
+    font-family: sans-serif;
+    font-variant-numeric: normal;
+    background-color: bisque;
+    margin: 20px;
+    padding: 20px;
+    width: auto;
+    height:500px;
+    
+    
+    
+}
+
+#titleline {
+    padding: 20px;
+    font-size: 20px;
+    margin: 20px;
+    
+}
