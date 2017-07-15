@@ -1,47 +1,39 @@
-/*Styling the input section */
-#input{
-    width: auto;
-    height: auto;
-    padding: 20px;
-    margin: 30px;
-}
-    
-/* styling the buttons */
-    
-#Addpoint {
-    color: green;
-    font-family: cursive;
-    font font-style: normal;
-    background-position: center;
-    box-sizing: content-box;
+body {
+    background-color: burlywood;
+    padding: 45px;
+    margin-bottom: 0px;
 }
 
-#Sectionclose {
-    color: green;
-    font-family: cursive;
-    font font-style: normal;
-    background-position: center;
-    box-sizing: content-box;
-}
 
-/* styling the viewing section*/
-#plot{
-    font: 13px;
-    font-family: sans-serif;
-    font-variant-numeric: normal;
-    background-color: bisque;
-    margin: 20px;
-    padding: 20px;
-    width: auto;
-    height:500px;
+
+td{
+    margin: 5px;
     
+}
+#plot {
+    float: right;
+    clear: both;
+    top: 80px;
+    height: 80%;
+    width: 800px;
+    border: 1px dashed black;
+    margin: 0;
+    padding: 0;
+    background-color:skyblue;
+    overflow:scroll;
     
+}
+#plottitle{
+   top: 60px; 
+    float: right
     
 }
 
-#titleline {
-    padding: 20px;
+#input {
+    float: left;
+    clear: both;
+    height: 40px;
+    width: 500px;
+    margin-top: 40px;
     font-size: 20px;
-    margin: 20px;
-    
 }

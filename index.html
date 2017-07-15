@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<meta charset=utf-8>
 <html>
-
-    <head>
-        <link type="text/css" rel="stylesheet" href="style.css">
-        <script src="main.js"></script>
-        <title>CE400-GUI</title>
-    </head>
+<head>
+    <meta charset=utf-8>
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <script src="function.js"></script>
+    <title>CE400-GUI</title>
+</head>
     <body>
 
     <div id="input">
-            <p> Inputs:</p><br>
+            <h2>Input Section: </h2>
+        <tabl>
+            <tr>
+                <td><input type="number" id="x1" placeholder="x-first edge" title=" x-first edge"></td>
+                <td><input type="number" id="y1" placeholder="y-first edge " title=" y-first edge"></td>
+            </tr>
         
-        <input type="number" value="" placeholder="Abscissa">
-        <input type="number" value="" placeholder="Ordinate">
-        <button id="Addpoint" >AddCoordinate</button>
-        <button id="Sectionclose">MergeEnds</button>
-        </div>
         
-        <canvas id="plot">
+            <tr>
+                <td><input type="number" id="x2" placeholder="x-next edge" title=" x-next edge"></td>
+                <td><input type="number" id="y2" placeholder="y-next edge" title=" y-next edge"></td>
+            </tr>
         
-        </canvas>
-    </body>
-
+        </tabl><br>
+            <button id="submit" onclick="myFunction()">AddthePoint</button>
+            <button id="connect" onclick="">LinktheEnds</button>
+            <button id="deletemodel" onclick="">deleteModel</button>
+     </div>
+        
+        <h2 id="plottitle:">Plot Section:</h2>
+        <canvas id="plot"> </canvas>
+    
+</body>
 </html>
