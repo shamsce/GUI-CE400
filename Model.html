@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <title>DamAnalysis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <link rel="stylesheet" href="style/styling.css">
+    <link rel="stylesheet" href="style/Model.css">
+     <script src="javascript/function.js"></script>
     <body>
         <div id="container">
             <div id="header">
                 <div id="brand">
-                    <h1><a href="index.html">Panthalassa-DAM </a></h1>
+                    <h1><a href="Model.html">Model: </a></h1>
                 </div>
                 <div id="searchBox">
                     <form method="get">
@@ -31,37 +32,33 @@
                         
                     </ul>
                 </div>
-                <div id="introduction">
-                    <h3> Finite Element Analysis of Dams</h3>
-                    
-                </div>
-                <div id="leftsidebar" class="sidebar">
-                    <h3>Abilities:</h3>
-                        <ol>
-                            <li><a href="#">Creating new model</a></li>
-                            <li><a href="#">Uploading an existing model</a></li>
-                            <li><a href="#">Analysis of the model</a></li>
-                            <li><a href="#">Storing the analysis in our Database</a></li>
-                            <li><a href="#">Viewing the results</a></li>
-                            <li><a href="#">Storing the results</a></li>
-                            
-                        </ol>
-                </div>
-                 <div id="rightsidebar" class="sidebar">
+<!-- Here is the content of the model-->
                 
-                    <h3>Why Panthalassa?</h3>
-                     <ol>
-                            <li><a href="#">No installation needed</a></li>
-                            <li><a href="#">Handy and user-friendly</a></li>
-                            <li><a href="#">Accurate and fast( target-oriented) </a></li>
-                            <li><a href="#">Storage and modification anytime</a></li>
-                     
-                     </ol>
                 
-                </div>
-                
-            
-            </div>
+                <h2> Upload Your File: </h2><input type="file" id="uploadedModel"> 
+                <h1> Create Your Model: </h1>
+<!--                Creating Model: -->
+                 <div id="input">
+        <tabl>
+            <tr>
+                <td><input type="number" id="x1" placeholder="x-first edge" title=" x-first edge"></td>
+                <td><input type="number" id="y1" placeholder="y-first edge " title=" y-first edge"></td>
+            </tr>
+        
+        
+            <tr>
+                <td><input type="number" id="x2" placeholder="x-next edge" title=" x-next edge"></td>
+                <td><input type="number" id="y2" placeholder="y-next edge" title=" y-next edge"></td>
+            </tr>
+        
+        </tabl><br>
+            <button id="submit" onclick="myFunction()">AddthePoint</button>
+            <button id="connect" onclick="">LinktheEnds</button>
+            <button id="deletemodel" onclick="">deleteModel</button>
+     </div>
+        
+        <canvas id="plot"> </canvas>
+<!--                End of the model creation-->
                 <div class="clear">
                 <footer class="footer">
                    <div>
