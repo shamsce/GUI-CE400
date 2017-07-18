@@ -1,0 +1,11 @@
+canvas {
+    border: #cccccc 1px solid !important;
+}
+
+#canvas {
+    margin-top: 10px;
+}
+
+#coordinates {
+    margin-top: 10px;
+}
