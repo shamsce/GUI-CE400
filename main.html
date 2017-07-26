@@ -4,19 +4,23 @@
         <meta charset="utf-8">
         <title>Dam Analysis</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-        <link rel="stylesheet" href="style/main.css">
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
+          <p>1/20 resolution:</p>
         <form id="drawForm">
-            <input type="text" id="coordinate" />
-            <input type="submit" value="Add point" />
+            <input type="text" id="coordinate" placeholder="Coordinates: x,y" />
+            <input type="submit" id="submit" value="Add point" />
+            <input type="number" id="segment">
+            <input type="button" id="mesh" value="Mesh"/>
         </form>
-
+       
         <div id="canvas"></div>
-        <div id="coordinates">Coordinates: </div>
+        
+        Coordinates:<div id="coordinates"> </div>
 
-        <script src="javascript/jquery-3.2.1.min.js"></script>
-        <script src="javascript/konva.min.js"></script>
-        <script src="javascript/main.js"></script>
+        <script src="jquery-3.2.1.min.js"></script>
+        <script src="konva.min.js"></script>
+        <script src="main.js"></script>
     </body>
 </html>

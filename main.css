@@ -1,0 +1,19 @@
+#canvas {
+    border: #cccccc 1px solid;
+    height:500px;
+    width: 500px;
+    margin-top: 30px;
+    background-image: url(grid..jpg);
+    background-size: cover;
+    
+    
+}
+
+#drawForm{
+  margin-top: 20px;
+}
+
+
+#coordinates {
+    margin-top: 10px;
+}
