@@ -168,14 +168,18 @@ $(function () {
     });
  
     
-  // I could not find a method to remove the canvas content and keep drawing again??
-  // anyway I tried it clears the content but does not draw unless the page is refreshed. 
-            $("#delete").click(function(){
-                coordinates=[];
-                $('#coordinates').html('');
- 
-                });
-    
+    // I could not find a method to remove the canvas content and keep drawing again??
+    // anyway I tried it clears the content but does not draw unless the page is refreshed. 
+    $("#delete").click(function(){
+        coordinates.length = 0;
+        mesh.length = 0;
+
+        $('#coordinates').html('');
+        polygonLayer.clear();
+        meshLayer.clear();
+
+    });
+
 });
 
 
