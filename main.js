@@ -1,9 +1,26 @@
+function inside(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+
+    return inside;
+};
 
 $(function () {
     
     // set the konva stage in div with id 'canvas'
-    var width =500;
+    var width = 500;
     var height = 500;
     var stage = new Konva.Stage({
         container: 'canvas',
@@ -11,44 +28,62 @@ $(function () {
         height: height
     });
 
-    var layer = new Konva.Layer();
-    stage.add(layer);
+    var polygonLayer = new Konva.Layer();
+    stage.add(polygonLayer);
+
+    var meshLayer = new Konva.Layer();
+    stage.add(meshLayer);
+
+    // function that converts logical coordinate to physical
+    var convertX = function (x) {
+        return x + width / 2;
+    };
+    var convertY = function (y) {
+        return -y + height / 2;
+    };
 
     // function that adds a line to canvas
     var drawLine = function (x1, y1, x2, y2) {
         console.log("Drawing Line:", x1, y1, x2, y2);
         var line = new Konva.Line({
-            points: [x1+width/2, -y1+height/2, x2+width/2, -y2+height/2],
+            points: [convertX(x1), convertY(y1), convertX(x2), convertY(y2)],
             stroke: 'red',
             strokeWidth: 4,
             fill:'#00ffcd',
-             lineCap: 'round',
-             lineJoin: 'round'
-          
-    
+            lineCap: 'round',
+            lineJoin: 'round'
         });
-        layer.add(line);
-        layer.draw();
+        polygonLayer.add(line);
+        polygonLayer.draw();
     };
-    //function to add meshes
-     var drawMesh = function (x1, y1, x2, y2) {
-        console.log("Drawing Line:", x1, y1, x2, y2);
-        var line = new Konva.Line({
-            points: [x1+width/2, -y1+height/2, x2+width/2, -y2+height/2],
-            stroke: 'blue',
-            strokeWidth: 1,
-            fill:'#00ffcd'
-          
-    
+
+    // function that draws a square on the given coordinate
+    var drawSquare = function (x, y, sideLength) {
+        console.log("Drawing square:", x, y, sideLength);
+        /*
+        var point = new Konva.Circle({
+            x: convertX(x),
+            y: convertY(y),
+            radius: 1,
+            fill: 'green',
+            stroke: 'green',
+            strokeWidth: 4
         });
-        layer.add(line);
-        layer.draw();
+        meshLayer.add(point);
+        */
+        var rect = new Konva.Rect({
+            x: convertX(x - sideLength / 2),
+            y: convertY(y + sideLength / 2),
+            width: sideLength,
+            height: sideLength,
+            stroke: 'blue',
+            strokeWidth: 0.5
+        });
+        meshLayer.add(rect);
     };
 
     // global coordinate container
     var coordinates = [];
-    var xvalues=[];
-    var yvalues=[];
 
     // handle submits on form with id 'drawForm'
     $("#drawForm").submit(function (event) {
@@ -63,8 +98,6 @@ $(function () {
         coordinate = coordinate.split(",");
         var x = parseFloat(coordinate[0]);
         var y = parseFloat(coordinate[1]);
-        xvalues.push(x);
-        yvalues.push(y);
 
         // if there is some kind of invalid input, warn the user and return
         if (isNaN(x) || isNaN(y)) {
@@ -99,55 +132,39 @@ $(function () {
         var newPoint = coordinates[coordinates.length - 1];
         drawLine(lastPoint[0], lastPoint[1], newPoint[0], newPoint[1]);
     });
+
+    // temporarily draw a polygon
+    coordinates.push([-120, -130]);
+    coordinates.push([140, -190]);
+    coordinates.push([130, 140]);
+    coordinates.push([0, 80]);
+    coordinates.push([-130, 150]);
+    drawLine(-120, -130, 140, -190);
+    drawLine(140, -190, 130, 140);
+    drawLine(130, 140, 0, 80);
+    drawLine(0, 80, -130, 150);
+    drawLine(-130, 150, -120, -130);
     
-   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //meshing is here: 
-    
-    $('#mesh').click(function(){
-      var segment=$("#segment").val();
-      $("#segment").val("");
-        
-      mesafe=parseInt(segment);
-        
-      var xMax=Math.max.apply(null,xvalues);
-      var xMin=Math.min.apply(null,xvalues);
-      var yMax=Math.max.apply(null,yvalues);
-      var yMin=Math.min.apply(null,yvalues);
-      var deltaX=Math.abs(xMax-xMin)/mesafe;
-      var deltaY=Math.abs(yMax-yMin)/mesafe;
-        
-        if(coordinates.length===3){
-            
-            console.log('under construction')
-        }
-        
-        if(coordinates.length ===4){
-            x1=xMin;
-            y1=yMin;
-            for(i=1;i<mesafe+1;i++){
-                for (j=1;j<mesafe;j++){
-                
-                drawMesh(x1,y1+deltaY,x1+deltaX,y1+deltaY);
-                y1+=deltaY;
+    var mesh = [];
+    $('#mesh').click(function () {
+        var delta = parseFloat($('#delta').val());
+        console.log('Will try to mesh with delta = ', delta);
+
+        for (var x = -width / 2; x <= width / 2; x += delta) {
+            for (var y = -height / 2; y <= height / 2; y += delta) {
+                if (inside([x, y], coordinates)) {
+                    mesh.push([x, y]);
                 }
-                x1+=deltaX;
-                y1=yMin;
-              
             }
-            
-            //===============================
-            x1=xMin;
-                for(i=1;i<mesafe+1;i++){
-                for (j=1;j<mesafe;j++){
-                
-                drawMesh(x1+deltaX,y1,x1+deltaX,y1+deltaY);
-                x1+=deltaX;
-                }
-                y1+=deltaY;
-                x1=xMin;
-              
-            }    
-        }    
+        }
+
+        mesh.forEach(function (center) {
+            drawSquare(center[0], center[1], delta);
+        });
+
+        meshLayer.draw();
     });
  
     
