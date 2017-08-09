@@ -1,3 +1,14 @@
+//Item in array function
+function isItemInArray(array, item) {
+    for (var i = 0; i < array.length; i++) {
+        // This if statement depends on the format of your array
+        if (array[i][0] == item[0] && array[i][1] == item[1]) {
+            return true;   // Found it
+        }
+    }
+    return false;   // Not found
+}
+
 function inside(point, vs) {
     // ray-casting algorithm based on
     // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
@@ -84,7 +95,9 @@ $(function () {
 
     // global coordinate container
     var coordinates = [];
-
+    var polygon = [];
+    var virtualPolygon = [];
+    var count = 0;
     // handle submits on form with id 'drawForm'
     $("#drawForm").submit(function (event) {
         
@@ -108,16 +121,27 @@ $(function () {
         // empty the input box so that user can directly begin to write new coordinate
         $("#coordinate").val("");
 
-        // if user enters the first coordinate again, close the loop and return
+        // if user enters the first coordinate again, assign coordinates to polygon, empty the coordinates
+        //close the loop and return
         if (coordinates.length >= 3 && x === coordinates[0][0] && y === coordinates[0][1]) {
             $("#coordinates").append("Loop closed.");
             var lastPoint = coordinates[coordinates.length - 1];
             drawLine(lastPoint[0], lastPoint[1], x, y);
+            polygon[count] = coordinates;
+            coordinates = [];
+            count++;
+            console.log(polygon,count,virtualPolygon);
             return;
         }
 
         // add the newly entered point to global coordinate container
         coordinates.push([x, y]);
+       
+        //add the new points to create a virtual polygon consists of only the sides
+        if (!isItemInArray(virtualPolygon, [x, y])) {
+            virtualPolygon.push([x, y]);
+            
+        }
 
         // also display the newly added point
         $("#coordinates").append("(" + x + ", " + y + "), ");
@@ -132,7 +156,7 @@ $(function () {
         var newPoint = coordinates[coordinates.length - 1];
         drawLine(lastPoint[0], lastPoint[1], newPoint[0], newPoint[1]);
     });
-
+    /*
     // temporarily draw a polygon
     coordinates.push([-120, -130]);
     coordinates.push([140, -190]);
@@ -144,7 +168,8 @@ $(function () {
     drawLine(130, 140, 0, 80);
     drawLine(0, 80, -130, 150);
     drawLine(-130, 150, -120, -130);
-    
+    */
+
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //meshing is here: 
     var mesh = [];
@@ -154,7 +179,7 @@ $(function () {
 
         for (var x = -width / 2; x <= width / 2; x += delta) {
             for (var y = -height / 2; y <= height / 2; y += delta) {
-                if (inside([x, y], coordinates)) {
+                if (inside([x, y], virtualPolygon)) {
                     mesh.push([x, y]);
                 }
             }
@@ -170,12 +195,18 @@ $(function () {
     
     // I could not find a method to remove the canvas content and keep drawing again??
     // anyway I tried it clears the content but does not draw unless the page is refreshed. 
-    $("#delete").click(function(){
+    $("#deleteAll").click(function(){
         coordinates.length = 0;
         mesh.length = 0;
 
         $('#coordinates').html('');
         polygonLayer.clear();
+        meshLayer.clear();
+
+    });
+
+    $("#deleteMesh").click(function(){
+        mesh.length = 0;
         meshLayer.clear();
 
     });
