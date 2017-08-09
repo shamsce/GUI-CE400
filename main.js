@@ -96,7 +96,6 @@ $(function () {
     // global coordinate container
     var coordinates = [];
     var polygon = [];
-    var virtualPolygon = [];
     var count = 0;
     // handle submits on form with id 'drawForm'
     $("#drawForm").submit(function (event) {
@@ -130,19 +129,13 @@ $(function () {
             polygon[count] = coordinates;
             coordinates = [];
             count++;
-            console.log(polygon,count,virtualPolygon);
             return;
         }
 
         // add the newly entered point to global coordinate container
         coordinates.push([x, y]);
        
-        //add the new points to create a virtual polygon consists of only the sides
-        if (!isItemInArray(virtualPolygon, [x, y])) {
-            virtualPolygon.push([x, y]);
-            
-        }
-
+    
         // also display the newly added point
         $("#coordinates").append("(" + x + ", " + y + "), ");
 
@@ -179,8 +172,10 @@ $(function () {
 
         for (var x = -width / 2; x <= width / 2; x += delta) {
             for (var y = -height / 2; y <= height / 2; y += delta) {
-                if (inside([x, y], virtualPolygon)) {
+                for (i=0; i<= polygon.length-1; i++) {
+                if (inside([x, y], polygon[i])) {
                     mesh.push([x, y]);
+                    }
                 }
             }
         }
