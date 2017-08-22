@@ -1,0 +1,162 @@
+body{
+    font:Arial, Helvetica,sans-serif;
+}
+#container {
+    width: 1048px;
+    /* border:1px solid grey;*/
+    margin: 0 auto;
+    
+}
+#header{
+    height: 100px;
+    padding: 10px 0px;
+}
+#brand{
+    float: left;
+    
+}
+#input{
+    width: 150px;
+    height: auto;
+    padding: 10px 20px 10px 20px;
+}
+
+
+h1 a{
+    
+    font-size: 40px;
+    font-weight: 100px;
+    color: #861BBF;
+    text-decoration: none;
+    
+    
+}
+h3{
+    font-family: sans-serif;
+    font-weight: 15px;
+    border-bottom: 2px solid black;
+}
+h2{
+    font-family: sans-serif;
+    font-weight: 5px;
+}
+
+#submit{
+    float: right;
+    padding: 5px;
+    font-weight: bold;
+    color: white;
+    background: #A751D6;
+    font-size: 15px;
+    margin-right: 450px;
+    
+}
+.clear{
+    clear: both;
+    
+    
+}
+#menu{
+    
+    height: 30px;
+    background: linear-gradient(#41dff4, #D5D533);
+   
+    
+}
+#coordinate{
+    height: 25px;
+    width: 310px;
+    background-color: skyblue;
+    margin-left:  192px;
+}
+
+
+.sidebar{
+    height: 500px;
+    width: 148px;
+    border: 2px solid green;
+    padding: 10px 20px;
+    margin-left: 0;
+    margin-right: 0;
+    
+    
+}
+.mainbar{
+    height: 500px;
+    width:620px;
+    border: 2px solid green;
+    padding: 10px 20px;
+    margin-left: 0;
+    margin-right: 0;
+    
+}
+#leftsidebar{
+    float: left;
+}
+#delta{
+    width: 60px;
+}
+#canvas{
+    float: left;
+}
+
+#rightsidebar{
+    
+float: right;
+}
+#materialProperty{
+    height: 150px;
+    width:150px;
+    
+}
+
+#boundaryCondition{
+    height: 150px;
+    width:150px;
+       
+    
+}
+#meshSize{
+    height: 150px;
+    width:150px;
+     
+}
+
+#solver{
+    height: 150px;
+    width:150px;
+    
+    
+}
+
+#result{
+    height: 200px;
+    width:150px;
+    
+    
+}
+#deletesection{
+    height: 100px;
+    width:150px;
+    
+    
+}
+
+.footer{
+    height: 60px;
+    background: linear-gradient(#90C3D4,#d5d533);
+     background: -webkit-linear-gradient(#90C3D4,#d5d533);
+     background: -moz-linear-gradient(#90C3D4,#d5d533);
+     background: -o-linear-gradient(#90C3D4,#d5d533);
+     background: -ms-linear-gradient(#90C3D4,#d5d533);
+    padding: 10px 20px;
+    margin-top: 0px;
+
+    
+}
+.footer p{
+    font-size: 15px;
+    margin-left: 340px;
+    
+    
+}

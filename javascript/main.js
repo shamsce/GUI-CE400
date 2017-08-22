@@ -1,3 +1,18 @@
+// Projection of point on line
+
+function getSpPoint(aX,aY,bX,bY,cX,cY){
+    var x1=aX, y1=aY, x2=bX, y2=bY, x3=cX, y3=cY;
+    var px = x2-x1, py = y2-y1, dAB = px*px + py*py;
+    var u = ((x3 - x1) * px + (y3 - y1) * py) / dAB;
+    var x = x1 + u * px, y = y1 + u * py;
+
+    	if (0 <= ( (Math.abs(x-x1)) / (Math.abs(x2-x1))) <= 1) {
+    		return true;
+    	}
+
+    return false;
+}
+
 //Item in array function
 function isItemInArray(array, item) {
     for (var i = 0; i < array.length; i++) {
@@ -126,9 +141,9 @@ $(function () {
             $("#coordinates").append("Loop closed.");
             var lastPoint = coordinates[coordinates.length - 1];
             drawLine(lastPoint[0], lastPoint[1], x, y);
-            polygon[count] = coordinates;
+            polygon.push(coordinates);
+            $("#polygon[i]").append("coordinates")
             coordinates = [];
-            count++;
             return;
         }
 
@@ -149,61 +164,107 @@ $(function () {
         var newPoint = coordinates[coordinates.length - 1];
         drawLine(lastPoint[0], lastPoint[1], newPoint[0], newPoint[1]);
     });
-    /*
-    // temporarily draw a polygon
-    coordinates.push([-120, -130]);
-    coordinates.push([140, -190]);
-    coordinates.push([130, 140]);
-    coordinates.push([0, 80]);
-    coordinates.push([-130, 150]);
-    drawLine(-120, -130, 140, -190);
-    drawLine(140, -190, 130, 140);
-    drawLine(130, 140, 0, 80);
-    drawLine(0, 80, -130, 150);
-    drawLine(-130, 150, -120, -130);
-    */
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //meshing is here: 
-    var mesh = [];
+    var mesh = {};
     $('#mesh').click(function () {
         var delta = parseFloat($('#delta').val());
+        if (isNaN(delta)) {
+        	alert("Mesh size is empty!");
+        	return;
+        }
         console.log('Will try to mesh with delta = ', delta);
 
+        var squareId = 1;
         for (var x = -width / 2; x <= width / 2; x += delta) {
             for (var y = -height / 2; y <= height / 2; y += delta) {
-                for (i=0; i<= polygon.length-1; i++) {
-                if (inside([x, y], polygon[i])) {
-                    mesh.push([x, y]);
+                for (var i = 0; i < polygon.length; i += 1) {
+                	if (inside([x, y], polygon[i])) {
+                    	mesh[squareId] = [x, y];
+                    	squareId += 1;
                     }
                 }
             }
         }
 
-        mesh.forEach(function (center) {
-            drawSquare(center[0], center[1], delta);
+        Object.keys(mesh).forEach(function (squareId) {
+        	var square = mesh[squareId];
+        	var x = square[0];
+        	var y = square[1];
+            drawSquare(x, y, delta);
         });
 
         meshLayer.draw();
+        console.log(mesh);
     });
- 
+
+
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 	//Adding a Boundary Condition
+ 	var BC= {};
+ 	$('#addBc').click(function () {
+ 		var bcX1 = parseFloat($('#bcX1').val());
+	 	var bcY1 = parseFloat($('#bcY1').val());
+	 	var bcX2 = parseFloat($('#bcX2').val());
+	 	var bcY2 = parseFloat($('#bcY2').val());
+
+	//Checking square intersects the given boundary condition line
+
+		var A = (bcY2 - bcY1);
+	    var B = (bcX1 - bcX2);
+	    var N = (bcY2 - (((bcY2 - bcY1)* bcX2) / (bcX2 - bcX1)));
+	    var C = ((bcX2 - bcX1)* N);
+
+	 	Object.keys(mesh).forEach(function (squareId) {
+	        	var square = mesh[squareId];
+	        	var corner1x = (square[0] + (delta/2));
+	        	var corner1y = (square[1] + (delta/2));
+	        	var corner2x = (square[0] - (delta/2));
+	        	var corner2y = (square[1] + (delta/2));
+	        	var corner3x = (square[0] - (delta/2));
+	        	var corner3y = (square[1] - (delta/2));
+	        	var corner4x = (square[0] + (delta/2));
+	        	var corner4y = (square[1] - (delta/2));
+
+	        	var d1 = (((A*corner1x) + (B*corner1y) + C) / Math.sqrt ((A*A)+(B*B)));
+				var d2 = (((A*corner2x) + (B*corner2y) + C) / Math.sqrt ((A*A)+(B*B)));
+				var d3 = (((A*corner3x) + (B*corner3y) + C) / Math.sqrt ((A*A)+(B*B)));
+				var d4 = (((A*corner4x) + (B*corner4y) + C) / Math.sqrt ((A*A)+(B*B)));
+
+				if( Math.sign(d1) !== Math.sign(d2) || Math.sign(d1) !== Math.sign(d3) || Math.sign(d1) !== Math.sign(d4) ) {
+
+					var elementId = 1;
+
+					if( getSpPoint(bcX1,bcY1,bcX2,bcY2,corner1x,corner1y) || getSpPoint(bcX1,bcY1,bcX2,bcY2,corner2x,corner2y) || getSpPoint(bcX1,bcY1,bcX2,bcY2,corner3x,corner3y) || getSpPoint(bcX1,bcY1,bcX2,bcY2,corner4x,corner4y)){
+						 BC[elementId]= {type: 'fixed', id: squareId};
+						 elementId+=1;
+						return;
+					}
+				}
+
+				
+		});
+
+		console.log(BC);
+
+	});
+
     
     // I could not find a method to remove the canvas content and keep drawing again??
     // anyway I tried it clears the content but does not draw unless the page is refreshed. 
     $("#deleteAll").click(function(){
-        coordinates.length = 0;
-        mesh.length = 0;
+        coordinates = [];
+        polygon = [];
+        mesh = {};
 
-        $('#coordinates').html('');
+        polygonLayer.children.length = 0;
+        meshLayer.children.length = 0;
+
         polygonLayer.clear();
         meshLayer.clear();
 
-    });
-
-    $("#deleteMesh").click(function(){
-        mesh.length = 0;
-        meshLayer.clear();
-
+        $('#coordinates').html('');
     });
 
 });

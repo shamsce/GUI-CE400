@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DamAnalysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <link rel="stylesheet" href="style/styling.css">
+    <body>
+        <div id="container">
+                <div id="brand">
+                    <h1><a href="index.html">Dam-Analysis </a></h1>
+                </div>
+               
+                <div class="clear">
+                
+                </div>
+                <div id="menu">
+                    
+                     <form id="drawForm">
+                         
+                        <input type="text" id="coordinate" placeholder="Coordinates: x,y" />
+                        <input type="submit" id="submit" value="Add point" />
+                       
+                   </form>
+                </div>
+                <div id="leftsidebar" class="sidebar">
+                <div id="materialProperty">
+                    <h3> Material Property:</h3>
+                </div>
+                <div id="boundaryCondition">
+                <h3> Boundary condition:</h3>
+                    <form>
+                    <input type="number" id="bcX1" placeholder="X1 Coordinate of BC">
+                    <input type="number" id="bcY1" placeholder="Y1 Coordinate of BC">
+                    <input type="number" id="bcX2" placeholder="X2 Coordinate of BC">
+                    <input type="number" id="bcY2" placeholder="Y2 Coordinate of BC">
+                    <input type="button" id="addBc" value="Add"/>
+                    
+                    </form>
+                </div>
+                <div id="meshSize">
+                <h3>Mesh Size:</h3>
+                    <form>
+                    <input type="number" id="delta">
+                    <input type="button" id="mesh" value="Mesh"/>
+                    
+                    </form>
+                </div>
+                    
+                    
+                        
+                </div>
+                 <div id="canvas" class="mainbar">
+                </div>
+                
+                <div id="rightsidebar" class="sidebar">
+                <div id="solver"> 
+                <h3>Solver:</h3>
+                </div>
+                <div id="result"> 
+                <h3>Results:</h3>    
+                </div>
+                <div id="deletesection"> 
+                <h3>Delete Model:</h3>
+                <button id="deleteAll">Delete all</button>   
+                
+                
+                </div>
+
+                </div>
+             
+                <div class="clear">
+                    
+                <footer class="footer">
+                   <h2>Records:</h2><div id="coordinates"> </div>
+                    
+                </footer>
+                
+                </div>
+            
+        </div>
+    
+         <script src="javascript/jquery-3.2.1.min.js"></script>
+        <script src="javascript/konva.min.js"></script>
+        <script src="javascript/main.js"></script>
+    
+    </body>
+
+</head>
+
+
+</html>
