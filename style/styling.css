@@ -113,9 +113,13 @@ float: right;
 #boundaryCondition{
     height: 150px;
     width:150px;
-       
-    
+    font-size: 12px;
 }
+
+#boundaryCondition input {
+    width: 50px;
+}
+
 #meshSize{
     height: 150px;
     width:150px;

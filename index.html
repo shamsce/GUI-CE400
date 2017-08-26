@@ -30,10 +30,14 @@
                 <div id="boundaryCondition">
                 <h3> Boundary condition:</h3>
                     <form>
-                    <input type="number" id="bcX1" placeholder="X1 Coordinate of BC">
-                    <input type="number" id="bcY1" placeholder="Y1 Coordinate of BC">
-                    <input type="number" id="bcX2" placeholder="X2 Coordinate of BC">
-                    <input type="number" id="bcY2" placeholder="Y2 Coordinate of BC">
+                    X1: <input type="number" id="bcX1"><br>
+                    Y1: <input type="number" id="bcY1"><br>
+                    X2: <input type="number" id="bcX2"><br>
+                    Y2: <input type="number" id="bcY2"><br>
+                    Type: <select id="bcType">
+                        <option value="fixed">Fixed</option>
+                        <option value="spring">Spring</option>
+                    </select> <br>
                     <input type="button" id="addBc" value="Add"/>
                     
                     </form>
@@ -62,7 +66,9 @@
                 </div>
                 <div id="deletesection"> 
                 <h3>Delete Model:</h3>
-                <button id="deleteAll">Delete all</button>   
+                <button id="deleteAll">Delete All</button>
+                <button id="deleteMesh">Delete Mesh</button>
+                <button id="deleteBc">Delete BC's</button>   
                 
                 
                 </div>
